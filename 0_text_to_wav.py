@@ -4,6 +4,11 @@ Note: ssml must be well-formed according to:
     https://www.w3.org/TR/speech-synthesis/
 """
 from google.cloud import texttospeech
+import argparse
+
+parser = argparse.ArgumentParser(description='Without option argument, it will not run properly.')
+parser.add_argument('-n', '--name', action='store', default='output', help="name of output .wav file")
+args = parser.parse_args()
 
 # Instantiates a client
 client = texttospeech.TextToSpeechClient()
@@ -30,9 +35,7 @@ response = client.synthesize_speech(
 )
 
 # The response's audio_content is binary.
-print("Name of .wav file:")
-name = input()
-with open(name + ".wav", "wb") as out:
+with open(args.name + ".wav", "wb") as out:
     # Write the response to the output file.
     out.write(response.audio_content)
-    print('Audio content written to file "'+ name +'.wav"')
+    print('Audio content written to file "'+ args.name +'.wav"')
