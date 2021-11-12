@@ -37,5 +37,5 @@
 	< <mouth> 將rhubarb生成的文字檔導入input。
 
 4.使用其他圖片生成GIF:
-	rhubarb會將音檔轉換成A~H+X九種嘴型，其中A和X一樣為嘴巴閉起的，因此只要將8種嘴型的PNG圖片按照對應嘴型命名為A~H放入PNG資料夾中，並在第三步設置-f參數即可。
+	rhubarb會將音檔轉換成A~H+X九種嘴型，其中A和X一樣為嘴巴閉起的，因此只要將8種嘴型的PNG圖片按照對應嘴型命名為A~H放入PNG資料夾中，並在第三步設置-f參數即可。預設有兩個資料夾"Lip"和"boy"
 	8種嘴型可參考rhubarb的GitHub: https://github.com/DanielSWolf/rhubarb-lip-sync
