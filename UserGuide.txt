@@ -12,24 +12,30 @@
 	(2)詳細參數用法可至GitHub查詢: https://github.com/DanielSWolf/rhubarb-lip-sync
 
 3.install python package:
-	use command: 'pip3 install --upgrade google-cloud-texttospeech imageio'
+	command: 'pip3 install --upgrade google-cloud-texttospeech imageio'
 
 4.建議使用virtualenv建立環境，避免安裝權限或和其他系統的相依問題，可參考https://github.com/googleapis/python-texttospeech。
 
+
 使用說明:
+
 1.文字轉音檔:
-	use command: python3 0_text_to_wav.py -n <name>
+	command: python3 0_text_to_wav.py -n <name>
 	-n <name> 會設置輸出的.wav檔的名字，default為"output"。
 
 2.音檔轉嘴型:
+	
 	Windows cmd:
-		use command: rhubarb.exe <src> -o <mouth>
+		command: rhubarb.exe <src> -o <mouth>
+	
 	XOS, Linux:
-		use command: rhubarb <src> -o <mouth>
+		command: rhubarb <src> -o <mouth>
+	
 	<src>為想轉換成嘴型的音檔名稱。
 	-o <mouth>將輸出存為文字檔，以便下一個步驟進行。
 
 3.嘴型轉gif:
+	
 	use command: python3 1_make_gif.py -d <duration> -f <image folder in PNG> -n <name> < <mouth>
 	-d <duration> 可調整每張圖片的duration，defaule為"0.4"，單位為sec。
 	-f <image folder in PNG> 可設置要使用哪一組圖源來生成GIF，default為"Lip"。
@@ -37,5 +43,7 @@
 	< <mouth> 將rhubarb生成的文字檔導入input。
 
 4.使用其他圖片生成GIF:
-	rhubarb會將音檔轉換成A~H+X九種嘴型，其中A和X一樣為嘴巴閉起的，因此只要將8種嘴型的PNG圖片按照對應嘴型命名為A~H放入PNG資料夾中，並在第三步設置-f參數即可。預設有兩個資料夾"Lip"和"boy"
+	
+	rhubarb會將音檔轉換成A~H+X九種嘴型，其中A和X一樣為嘴巴閉起的，因此只要將8種嘴型的PNG圖片按照對應嘴型命名為A~H放入PNG資料夾中，並在第三步設置-f參數即可。預設圖源有"Lip"和"boy"
+	
 	8種嘴型可參考rhubarb的GitHub: https://github.com/DanielSWolf/rhubarb-lip-sync
