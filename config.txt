@@ -1,0 +1,5 @@
+pptx = 'UserGuide.txt'
+page = '1'
+PNG = 'Lip'
+pos = (0, 0)
+size = (200, 200)

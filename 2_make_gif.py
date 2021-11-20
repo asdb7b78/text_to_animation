@@ -3,7 +3,7 @@ import sys
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-d', '--duration', action='store',default='0.4', type=float, help='Gif duration of each image, default=0.4')
+parser.add_argument('-d', '--duration', action='store',default='0.2', type=float, help='Gif duration of each image, default=0.4')
 parser.add_argument('-f', '--folder', action='store',default='Lip', help='Folder name in "PNG"')
 parser.add_argument('-n', '--name', action='store',default='output', help='Wav file')
 args = parser.parse_args()
@@ -50,3 +50,4 @@ for i in Phonetic:
             gif.append(img[7])
 
 io.mimsave(args.name+'.gif', gif, duration = d)
+print('Gif is written to file "'+args.name+'.gif"')
