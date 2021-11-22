@@ -5,6 +5,7 @@ import argparse
 import imageio
 from pptx import Presentation
 from pptx.util import Pt
+from pptx.enum.shapes import PP_MEDIA_TYPE
 from google.cloud import texttospeech
 
 
@@ -79,7 +80,7 @@ def make_gif(folder, gif_name, dur):
                 gif.append(img[6])
             elif i[1] == 'H':
                 gif.append(img[7])
-    imageio.mimsave(gif_name+'.gif', gif, duration = dur)
+    imageio.mimsave(gif_name+'.gif', gif, duration = dur, loop=1)
     print('\nGif is written to file "' + gif_name + '.gif"\n')
 
 #讀檔 -> 指定哪一頁 -> 轉換文字 -> 插入gif -> 插入聲音
@@ -119,16 +120,25 @@ if __name__ == '__main__':
     if args.pos:
         print('X Y:')
         pos = input().split(' ')
+        pos[0] = int(pos[0])
+        pos[1] = int(pos[1])
     if args.size:
         print('Width Height:')
         size = input().split(' ')
+        size[0] = int(size[0])
+        size[1] = int(size[1])
     else:
         gif = imageio.imread(args.name+'.gif')
         size[0] = gif.shape[0]
         size[1] = gif.shape[1]
+        if args.height:
+            print('Height:')
+            h = int(input())
+            size[0] = int(float(size[0]) * h / size[1])
+            size[1] = h
 
-    prs.slides[args.page-1].shapes.add_movie(args.name + '.gif', Pt(pos[0]), Pt(pos[1]), Pt(size[0]), Pt(size[1]))
-    
+    #prs.slides[args.page-1].shapes.add_movie(args.name + '.gif', Pt(pos[0]), Pt(pos[1]), Pt(size[0]), Pt(size[1]))
+    prs.slides[args.page-1].shapes.add_picture(args.name + '.gif', Pt(pos[0]), Pt(pos[1]), width=Pt(size[0]), height=Pt(size[1]))    
     prs.slides[args.page-1].shapes.add_movie(args.name + '.wav', Pt(0), Pt(0), Pt(100), Pt(100))
 
     prs.save('new_' + args.pptx)
