@@ -21,7 +21,7 @@ if __name__ == '__main__':
     
     os.system("rhubarb.exe " + args.name + ".wav -o mouth.txt")
     
-    tta.make_gif(args.folder, args.name + '.gif', args.duration, mouth_path='mouth.txt')
+    tta.make_gif(args.folder, args.name + '.gif', dur=args.duration, mouth_path='mouth.txt')
     
     pos = [0, 0]
     size = False

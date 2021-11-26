@@ -52,7 +52,7 @@ def text_to_speech(text_in, wav_path):
         out.write(response.audio_content)
         print('\nAudio content written to file "'+ wav_path + '\n')
 
-def make_gif(folder, gif_parh, dur, mouth_path = 'mouth.txt'):
+def make_gif(folder, gif_parh, dur=0.2, mouth_path = 'mouth.txt'):
     # Read PNG
     img_name = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
     img = []
