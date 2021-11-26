@@ -1,7 +1,7 @@
+import os
 import imageio
 from pptx import Presentation
 from pptx.util import Pt
-#from pptx.enum.shapes import PP_MEDIA_TYPE
 from google.cloud import texttospeech
 
 def pptx_to_text(pptx_path, page):
@@ -52,7 +52,7 @@ def text_to_speech(text_in, wav_path):
         out.write(response.audio_content)
         print('\nAudio content written to file "'+ wav_path + '\n')
 
-def make_gif(folder, gif_parh, dur=0.2, mouth_path = 'mouth.txt'):
+def make_gif(folder, gif_parh, dur, mouth_path):
     # Read PNG
     img_name = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
     img = []
@@ -95,10 +95,12 @@ def make_gif(folder, gif_parh, dur=0.2, mouth_path = 'mouth.txt'):
     imageio.mimsave(gif_parh, gif, duration = dur, loop=1)
     print('\nGif is written to file "' + gif_parh + '"\n')
 
-def insert_to_pptx(pptx_path, page, gif_path='output.gif', sound_path='output.wav', pos=[0, 0], size=False, height=False):
+def insert_to_pptx(pptx_path, page, gif_path, sound_path, pos, size, height):
     prs = Presentation(pptx_path)
-    size = [300, 300]
+    if pos == False:
+        pos = [0, 0]
     if size == False:
+        size = [0, 0]
         gif = imageio.imread(gif_path)
         size[0] = gif.shape[0]
         size[1] = gif.shape[1]
@@ -112,3 +114,43 @@ def insert_to_pptx(pptx_path, page, gif_path='output.gif', sound_path='output.wa
 def save_pptx(prs, path):
     prs.save(path)
     print('\nNew pptx is written to file "'+path+'"\n')
+
+def text_to_animation(pptx, page, name, folder, duration, pos=False, size=False, height=False):
+    # pptx = path of pptx
+    # page = page numbeer
+    # name = output gif, wav name
+    # folder = source image folder in 'PNG'
+    # duration = minimum duration of every source image in gif
+    # pos = [x, y] is position of gif,
+    #       if set True, get a new pos from standard input
+    # size = [w, h] is size of gif,
+    #       if set True, get new w and h from standard input
+    # height = h is height of gif, and would scale up the gif by h,
+    #       if set True, get new h from standard input
+
+    text = pptx_to_text(pptx, page)
+    text_to_speech(text, name+'.wav')
+
+    mouth = 'mouth.txt'
+    os.system("rhubarb.exe " + name + ".wav -o "+mouth)
+    make_gif(folder, name + '.gif', dur=duration, mouth_path=mouth)
+
+    if pos == True:
+        print('Input new pos X Y in one line:')
+        pos = input().split(' ')
+        pos[0] = int(pos[0])
+        pos[1] = int(pos[1])
+    if size != False and height != False:
+        print("Can't resize gif with size and height simultaneously.")
+        return
+    if size == True:
+        print('Input new width and height in one line:')
+        size = input().split(' ')
+        size[0] = int(size[0])
+        size[1] = int(size[1])
+    elif height == True:
+        print('Input new height:')
+        height = int(input())
+
+    prs = insert_to_pptx(pptx, page, gif_path=name+'.gif', sound_path=name+'.wav', pos=pos, size=size, height=height)
+    save_pptx(prs, path='new_'+pptx)
